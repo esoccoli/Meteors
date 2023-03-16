@@ -20,12 +20,12 @@ public class Player
     /// Provides the needed information to create a player
     /// </summary>
     /// <param name="texture">Texture file for the ship</param>
-    /// <param name="position">Position vector of the player</param>
-    public Player(Texture2D texture, Vector2 position)
+    /// <param name="pos">Position vector of the player</param>
+    public Player(Texture2D texture, Vector2 pos)
     {
         this.texture = texture;
-        this.position = position;
-        angle = Math.PI / 2;
+        position = pos;
+        angle = 0;
     }
     
     /// <summary>
@@ -51,15 +51,13 @@ public class Player
             angle += 0.05;
         }
 
-        // Moves the ship forward if the W or S key is pressed or if the joystick is moved up
+        // Moves the ship forward if the W key is pressed or if the joystick is moved up
         if (Keyboard.GetState().IsKeyDown(Keys.W) ||
-            Keyboard.GetState().IsKeyDown(Keys.S) ||
             GetButtonDown(1, ArcadeButtons.StickUp) ||
             GetButtonDown(2, ArcadeButtons.StickUp))
         {
-            position.X += (float)Math.Sin(angle) * 2f;
-            position.Y -= (float)Math.Cos(angle) * 2f;
-            
+            position.X += (float)Math.Sin(angle) * 2;
+            position.Y -= (float)Math.Cos(angle) * 2;
         }
     }
     
@@ -69,8 +67,16 @@ public class Player
     /// <param name="spriteBatch">Object that allows items to be drawn to the screen</param>
     public void Draw(SpriteBatch spriteBatch)
     {
-        spriteBatch.Draw(texture, position, null, Color.White, (float)angle, new Vector2(texture.Width / 2, texture.Height / 2), 1f, SpriteEffects.None, 0f);
+        spriteBatch.Draw(
+            texture, 
+            position, 
+            null, 
+            Color.White, 
+            (float)angle, 
+            new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y),
+            1f,
+            SpriteEffects.None, 
+            0f);
     }
-    
     
 }

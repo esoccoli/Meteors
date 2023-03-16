@@ -13,9 +13,7 @@ public class Game1 : Game
     private Player player;
     private Texture2D asteroid;
     private Texture2D ship;
-    private Texture2D asteroidThreeQuarters;
-    private Texture2D asteroidHalf;
-    
+
     private Vector2 playerPosition;
     private Vector2 asteroidPosition;
     
@@ -48,8 +46,6 @@ public class Game1 : Game
         // TODO: use this.Content to load your game content here
         asteroid = Content.Load<Texture2D>("Asteroid");
         ship = Content.Load<Texture2D>("Ship");
-        asteroidThreeQuarters = Content.Load<Texture2D>("AsteroidThreeQuarters");
-        asteroidHalf = Content.Load<Texture2D>("AsteroidHalf");
 
         player = new Player(ship, playerPosition);
     }
