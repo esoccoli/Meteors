@@ -7,6 +7,8 @@ namespace Meteors;
 
 public class Game1 : Game
 {
+    public static Game1 game;
+    
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -17,8 +19,14 @@ public class Game1 : Game
     private Vector2 playerPosition;
     private Vector2 asteroidPosition;
     
+    /// <summary>
+    /// Returns a rectangle representing the bounds of the game window
+    /// </summary>
+    public static Rectangle WindowBounds => game.GraphicsDevice.Viewport.Bounds;
+    
     public Game1()
     {
+        game = this;
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
