@@ -12,13 +12,17 @@ public class Game1 : Game
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
-    private Player player;
-    private Texture2D asteroid;
-    private Texture2D ship;
-
+    public Player Player;
+    public Laser laser;
+    
+    private Texture2D asteroidTexture;
+    private Texture2D shipTexture;
+    private Texture2D laserTexture;
+    
     private Vector2 playerPosition;
     private Vector2 asteroidPosition;
-    
+
+
     /// <summary>
     /// Returns a rectangle representing the bounds of the game window
     /// </summary>
@@ -52,10 +56,12 @@ public class Game1 : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
         // TODO: use this.Content to load your game content here
-        asteroid = Content.Load<Texture2D>("Asteroid");
-        ship = Content.Load<Texture2D>("Ship");
+        asteroidTexture = Content.Load<Texture2D>("Asteroid");
+        shipTexture = Content.Load<Texture2D>("Ship");
+        laserTexture = Content.Load<Texture2D>("laser");
 
-        player = new Player(ship, playerPosition);
+        Player = new Player(shipTexture, playerPosition);
+        laser = new Laser(laserTexture, playerPosition, 0);
     }
 
     protected override void Update(GameTime gameTime)
@@ -64,7 +70,11 @@ public class Game1 : Game
             Exit();
 
         // TODO: Add your update logic here
-        player.Update(gameTime);
+        Player.Update(gameTime);
+        for (int i = 0; i < Player.LaserList.Count; i++)
+        {
+            Player.LaserList[i].Update(gameTime);
+        }
         base.Update(gameTime);
     }
 
@@ -75,7 +85,11 @@ public class Game1 : Game
         // TODO: Add your drawing code here
         
         _spriteBatch.Begin();
-        player.Draw(_spriteBatch);
+        Player.Draw(_spriteBatch);
+        for (int i = 0; i < Player.LaserList.Count; i++)
+        {
+            Player.LaserList[i].Draw(_spriteBatch);
+        }
         _spriteBatch.End();
         base.Draw(gameTime);
     }

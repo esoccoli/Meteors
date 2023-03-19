@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Devcade;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -14,7 +15,8 @@ public class Player
 {
     private Texture2D texture;
     private Vector2 position;
-    private double angle;
+    public List<Laser> LaserList;
+    public double Angle { get; set; }
     
     /// <summary>
     /// Provides the needed information to create a player
@@ -25,7 +27,9 @@ public class Player
     {
         this.texture = texture;
         position = pos;
-        angle = 0;
+        Angle = 0;
+
+        LaserList = new List<Laser>();
     }
     
     /// <summary>
@@ -40,7 +44,7 @@ public class Player
             GetButtonDown(1, ArcadeButtons.StickLeft) ||
             GetButtonDown(2, ArcadeButtons.StickLeft))
         {
-            angle -= 0.05;
+            Angle -= 0.05;
         }
 
         // Rotates the ship clockwise if the D button is pressed or if the joystick is moved right
@@ -48,7 +52,7 @@ public class Player
             GetButtonDown(1, ArcadeButtons.StickRight)
             || GetButtonDown(2, ArcadeButtons.StickRight))
         {
-            angle += 0.05;
+            Angle += 0.05;
         }
 
         // Moves the ship forward if the W key is pressed or if the joystick is moved up
@@ -56,8 +60,15 @@ public class Player
             GetButtonDown(1, ArcadeButtons.StickUp) ||
             GetButtonDown(2, ArcadeButtons.StickUp))
         {
-            position.X += (float)Math.Sin(angle) * 2;
-            position.Y -= (float)Math.Cos(angle) * 2;
+            position.X += (float)Math.Sin(Angle) * 2;
+            position.Y -= (float)Math.Cos(Angle) * 2;
+        }
+        
+        if (Keyboard.GetState().IsKeyDown(Keys.Space) ||
+            GetButtonDown(1, ArcadeButtons.A1) ||
+            GetButtonDown(2, ArcadeButtons.A1))
+        {
+            LaserList.Add(new Laser(texture, position, Angle));
         }
     }
     
@@ -72,12 +83,10 @@ public class Player
             position, 
             null, 
             Color.White, 
-            (float)angle, 
+            (float)Angle, 
             new Vector2(texture.Bounds.Center.X, texture.Bounds.Center.Y),
             1f,
             SpriteEffects.None, 
             0f);
     }
-    
-    
 }
